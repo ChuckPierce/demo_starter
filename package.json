@@ -2,10 +2,12 @@
   "name": "demo_starter",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "index.html",
   "author": "Chuck Pierce <chuckmpierce@gmail.com> (http://www.chuckmpierce.com)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "event-stream": "^3.3.1",
+    "nw": "^0.12.2",
+    "ps-tree": "^1.0.0"
+  }
 }
