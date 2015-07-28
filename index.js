@@ -1,6 +1,10 @@
 var gui = require('nw.gui')
 var win = gui.Window.get()
 
+var menubar = new gui.Menu({type: 'menubar'})
+var subMenu = new gui.Menu()
+menubar.append(new gui.MenuItem({label: 'File', submenu: subMenu}))
+
 var exec = require('child_process').exec
 var path = require('path')
 var webpack = require('webpack')
@@ -31,7 +35,7 @@ child.on('close', function(code, signal) {
 // start webpack watch for changes on js files when changing branches
 var config = require(path.join(root, '/percolate/demo/ui/lib/config'))
 var compiler = webpack(config.webpack)
-compiler.watch({
+var watcher = compiler.watch({
     aggregateTimeout: 300,
     poll: true
 }, function(err, stats) {
