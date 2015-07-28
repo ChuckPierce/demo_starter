@@ -6,8 +6,8 @@ var webpack = require('webpack')
 var cmd = '/usr/local/google_appengine/dev_appserver.py ~/percolate/demo'
 var psTree = require('ps-tree')
 
-var child = exec(cmd)
-
+var child = exec(cmd,{maxBuffer:200*10024})
+var count = 0
 var root = path.resolve(gui.App.dataPath, '../../..')
 
 
@@ -16,9 +16,11 @@ child.stdout.on('data', function(data) {
 })
 child.stderr.on('data', function(data) {
     console.log('stderr: ' + data);
+    count++
 })
-child.on('close', function(code) {
-    console.log('closing code: ' + code);
+child.on('close', function(code, signal) {
+    console.log('closing code: ' + code + ' ' + signal);
+    console.log(count)
 })
 
 var config = require(path.join(root, '/percolate/demo/ui/lib/config'))
@@ -30,36 +32,9 @@ compiler.watch({
     poll: true
 }, function(err, stats) {
     console.log('Change has been made', stats)
-});
-
-var kill = function (pid, signal, callback) {
-    signal   = signal || 'SIGINT';
-    callback = callback || function () {}
-    var killTree = true;
-    if(killTree) {
-        psTree(pid, function (err, children) {
-            var pidArr = []
-            pidArr.push(pid)
-            pidArr.concat(
-                children.map(function (p) {
-                    return p.PID;
-                })
-            ).forEach(function (tpid) {
-                try { process.kill(tpid, signal) }
-                catch (ex) { }
-            })
-            callback()
-        });
-    } else {
-        try { process.kill(pid, signal) }
-        catch (ex) { }
-        callback()
-    }
-}
+})
 
 win.on('close', function () {
-    kill(child.pid, 'SIGINT', function() {
-        console.log('killed')
-        win.close(true)
-    })
+    child.kill('SIGTERM')
+    win.close(true)
 })
