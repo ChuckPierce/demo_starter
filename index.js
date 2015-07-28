@@ -1,4 +1,3 @@
-var webpackConfig = require('./config').webpack
 var gui = require('nw.gui')
 var win = gui.Window.get()
 var exec = require('child_process').exec
@@ -24,7 +23,7 @@ child.on('close', function(code) {
 
 var config = require(path.join(root, '/percolate/demo/ui/lib/config'))
 
-var compiler = webpack(webpackConfig)
+var compiler = webpack(config.webpack)
 
 compiler.watch({
     aggregateTimeout: 300,
