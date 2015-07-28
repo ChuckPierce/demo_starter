@@ -1,9 +1,9 @@
 var gui = require('nw.gui')
 var win = gui.Window.get()
 
-var menubar = new gui.Menu({type: 'menubar'})
-var subMenu = new gui.Menu()
-menubar.append(new gui.MenuItem({label: 'File', submenu: subMenu}))
+var nativeMenuBar = new gui.Menu({ type: "menubar" });
+nativeMenuBar.createMacBuiltin("Demo Starter");
+win.menu = nativeMenuBar;
 
 var exec = require('child_process').exec
 var path = require('path')
