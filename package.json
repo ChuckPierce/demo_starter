@@ -9,7 +9,6 @@
     "event-stream": "^3.3.1",
     "github": "^0.2.4",
     "nw": "^0.12.2",
-    "ps-tree": "^1.0.0",
     "webpack": "^1.10.5"
   },
   "window": {}
