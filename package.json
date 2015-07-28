@@ -6,9 +6,6 @@
   "author": "Chuck Pierce <chuckmpierce@gmail.com> (http://www.chuckmpierce.com)",
   "license": "ISC",
   "dependencies": {
-    "event-stream": "^3.3.1",
-    "github": "^0.2.4",
-    "nw": "^0.12.2",
     "webpack": "^1.10.5"
   },
   "window": {}
