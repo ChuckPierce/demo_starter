@@ -5,59 +5,39 @@ var nativeMenuBar = new gui.Menu({ type: "menubar" });
 nativeMenuBar.createMacBuiltin("Demo Starter");
 win.menu = nativeMenuBar;
 
-var exec = require('child_process').exec
-var path = require('path')
-var webpack = require('webpack')
-var watchStarted = false
+
+var server = require('./server')
+var watch = require('./watch')
+
 var message = document.querySelector('.message')
+var watchBtn = document.querySelector('.watch')
+var serverBtn = document.querySelector('.server')
 
-// command to execute python development server with demo directory
-var cmd = '/usr/local/google_appengine/dev_appserver.py ~/percolate/demo'
+// run server
+server.run(message)
 
-// create child process to start server and set maxBuffer to handle preloading assets
-var child = exec(cmd,{maxBuffer:200*10024})
-//set root for OSX machines
-var root = path.resolve(gui.App.dataPath, '../../..')
-
-// handle dev console logs
-child.stdout.on('data', function(data) {
-    console.log('stdout: ' + data)
+// run watch
+var watcher = watch.run(message, gui)
+console.log(watcher)
+// server button click
+serverBtn.addEventListener('click', function () {
+    server.kill()
+    message.textContent = 'Server has stopped'
+    watcher.close(function() {
+        server.run(message)
+        watcher = watch.run(message, gui)
+    })
 })
 
-child.stderr.on('data', function(data) {
-    if (data.indexOf('Starting admin server') > -1) {
-        message.textContent = 'Server has started...starting webpack watch'
-    }
-    console.log('stderr: ' + data);
-})
-
-child.on('close', function(code, signal) {
-    console.log('closing code: ' + code + ' ' + signal);
-})
-
-child.on('error', function(err) {
-    console.log(err)
-    message.textContent = "There was an error running the server.  Please restart"
-})
-
-// start webpack watch for changes on js files when changing branches
-var config = require(path.join(root, '/percolate/demo/ui/lib/config'))
-var compiler = webpack(config.webpack)
-var watcher = compiler.watch({
-    aggregateTimeout: 300,
-    poll: true
-}, function(err, stats) {
-    if (watchStarted) {
-        message.textContent = 'A change has been made...still watching'
-    } else {
-        watchStarted = true
-        message.textContent = 'watch has started...listening for changes'
-    }
-    console.log('Change has been made', stats)
+watchBtn.addEventListener('click', function () {
+    watcher.close(function () {
+        message.textContent = "restarting watch"
+        watcher = watch.run(message, gui)
+    })
 })
 
 // kill process on window close
 win.on('close', function () {
-    child.kill('SIGTERM')
+    server.kill()
     win.close(true)
 })
