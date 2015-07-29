@@ -27,15 +27,16 @@ var jsWatcher = {
             var debuggerConsole = document.querySelector('.debugger')
             if (stats.compilation.errors.length > 0) {
                 stats.compilation.errors.forEach(function (error) {
-                    var textNode = document.createTextNode(error.message)
-                    node.appendChild(textNode)
-                    node.style.color = 'red'
+                    console.log(error.message)
+                    var errMessage = error.message.replace(/[\n]/g, '<br>')
+                    node.innerHTML = errMessage
+                    node.style.color = '#eb3e31'
                     debuggerConsole.insertBefore(node, debuggerConsole.childNodes[0])
                 })
             } else {
                 var textNode = document.createTextNode('Compile successful')
                 node.appendChild(textNode)
-                node.style.color = 'green'
+                node.style.color = '#9fcb00'
                 debuggerConsole.insertBefore(node, debuggerConsole.childNodes[0])
             }
 

@@ -4,7 +4,7 @@ body {
 
 .container {
     text-align: center;
-    margin-top: 8px;
+    margin-top: 15px;
 }
 
 button {
@@ -42,4 +42,9 @@ button.danger:hover, button.danger:active {
     height: 225px;
     overflow-y: scroll;
     margin-top: 10px;
+    font-family: monospace;
+}
+
+.debugger > p {
+    margin-left: 10px;
 }

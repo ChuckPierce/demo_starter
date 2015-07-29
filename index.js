@@ -28,7 +28,7 @@ serverBtn.addEventListener('click', function () {
     if(!watcher) watcher = watch.run(message, gui, document)
     watcher.close(function() {
         server.run(message, function () {
-            watcher = watch.run(message, gui)
+            watcher = watch.run(message, gui, document)
         })
     })
 })
@@ -43,11 +43,11 @@ watchBtn.addEventListener('click', function () {
 debugBtn.addEventListener('click', function () {
     if (DEBUG) {
         debuggerConsole.style.visibility = 'hidden'
-        debugBtn.textContent = 'Show Debugger'
+        debugBtn.textContent = 'Show Console'
         DEBUG = false
     } else {
         debuggerConsole.style.visibility = 'visible'
-        debugBtn.textContent = 'Hide Debugger'
+        debugBtn.textContent = 'Hide Console'
         DEBUG = true
     }
 })

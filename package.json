@@ -9,7 +9,7 @@
     "webpack": "^1.10.5"
   },
   "window": {
-      "icon": "assets/drip.png"
-      "toolbar": false,
+      "icon": "assets/drip.png",
+      "toolbar": false
   }
 }
