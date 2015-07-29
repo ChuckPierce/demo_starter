@@ -10,5 +10,6 @@
   },
   "window": {
       "icon": "assets/drip.png"
+      "toolbar": false,
   }
 }

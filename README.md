@@ -28,7 +28,9 @@ To build the app:
 
 The current version only supports OSX operating system
 
+Also, the demo repository currently has to exist in `~/percolate/demo` for the application to work correctly
+
 ## To Do
 - integrate with Github API to allow switching between branches in app
-- allow user to designate with demo repository lives on local machine
+- allow user to designate where the demo repository lives on local machine
 - make app compatible with other operating systems
