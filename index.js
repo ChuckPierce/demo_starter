@@ -9,6 +9,7 @@ var exec = require('child_process').exec
 var path = require('path')
 var webpack = require('webpack')
 var watchStarted = false
+var message = document.querySelector('.message')
 
 // command to execute python development server with demo directory
 var cmd = '/usr/local/google_appengine/dev_appserver.py ~/percolate/demo'
@@ -22,14 +23,21 @@ var root = path.resolve(gui.App.dataPath, '../../..')
 child.stdout.on('data', function(data) {
     console.log('stdout: ' + data)
 })
+
 child.stderr.on('data', function(data) {
     if (data.indexOf('Starting admin server') > -1) {
-        document.querySelector('.message').textContent = 'Server has started...starting webpack watch'
+        message.textContent = 'Server has started...starting webpack watch'
     }
     console.log('stderr: ' + data);
 })
+
 child.on('close', function(code, signal) {
     console.log('closing code: ' + code + ' ' + signal);
+})
+
+child.on('error', function(err) {
+    console.log(err)
+    message.textContent = "There was an error running the server.  Please restart"
 })
 
 // start webpack watch for changes on js files when changing branches
@@ -40,10 +48,10 @@ var watcher = compiler.watch({
     poll: true
 }, function(err, stats) {
     if (watchStarted) {
-        document.querySelector('.message').textContent = 'A change has been made...still watching'
+        message.textContent = 'A change has been made...still watching'
     } else {
         watchStarted = true
-        document.querySelector('.message').textContent = 'watch has started...listening for changes'
+        message.textContent = 'watch has started...listening for changes'
     }
     console.log('Change has been made', stats)
 })
