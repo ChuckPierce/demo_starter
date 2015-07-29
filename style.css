@@ -1,0 +1,28 @@
+button {
+    -webkit-user-select: none;
+    background-color: white;
+    background-image: none;
+    display: inline-block;
+    font-family: "Futura W01 Bold", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 15px;
+    padding: 6px 12px;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+button:focus {outline:0;}
+
+button.danger {
+    border: 1px solid #eb3e31;
+    color: #eb3e31;
+}
+
+button.danger:hover, button.danger:active {
+    border: 1px solid #bd1e12;
+    color: #bd1e12;
+}
