@@ -5,9 +5,10 @@ var jsWatcher = {
     compiler: undefined,
     watchStarted: false,
     watcher: undefined,
-    run: function (message, gui, document) {
+    run: function (document, gui) {
         // set root for OSX machines
         var root = path.resolve(gui.App.dataPath, '../../..')
+        var message = document.querySelector('.message')
 
         // start webpack watch for changes on js files when changing branches
         var config = require(path.join(root, '/percolate/demo/ui/lib/config'))

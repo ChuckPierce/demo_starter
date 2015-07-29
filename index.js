@@ -17,26 +17,26 @@ var serverBtn = document.querySelector('.server')
 var debugBtn = document.querySelector('.debug-btn')
 var debuggerConsole = document.querySelector('.debugger')
 // run server
-server.run(message, function () {
+server.run(document, function () {
     // run watch
-    watcher = watch.run(message, gui, document)
-})
+    watcher = watch.run(document, gui)
+}, gui)
 // server button click
 serverBtn.addEventListener('click', function () {
     server.kill('SIGTERM')
     message.textContent = 'Server has stopped'
-    if(!watcher) watcher = watch.run(message, gui, document)
+    if(!watcher) watcher = watch.run(document, gui)
     watcher.close(function() {
-        server.run(message, function () {
-            watcher = watch.run(message, gui, document)
-        })
+        server.run(document, function () {
+            watcher = watch.run(document, gui)
+        }, gui)
     })
 })
 
 watchBtn.addEventListener('click', function () {
     watcher.close(function () {
         message.textContent = "restarting watch"
-        watcher = watch.run(message, gui, document)
+        watcher = watch.run(document, gui)
     })
 })
 
