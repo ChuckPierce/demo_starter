@@ -5,14 +5,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div style="text-align: center">
-        <img src="assets/Percolate_logo.png" style="width:50%; height:50%">
+    <div class="container">
+        <img src="assets/Percolate_logo.png" style="width:30%; height:30%">
     	<h1 style="font-family:'georgia', serif; text-align:center;">Demo Starter</h1>
         <h2 class="message" style="color:#f16421; font-family:'Helvetica', sans-serif; text-align:center;">Server starting...</h2>
         <div>
             <button class="watch danger">Restart Watch</button>
             <button class="server danger">Restart Server</button>
         </div>
+        <br>
+        <button class="debug-btn">Show Debugger</button>
+        <div class="debugger" style="visibility: hidden;"></div>
     </div>
 	<script type="text/javascript" src="index.js"></script>
 </body>

@@ -1,3 +1,12 @@
+body {
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    margin-top: 8px;
+}
+
 button {
     -webkit-user-select: none;
     background-color: white;
@@ -25,4 +34,12 @@ button.danger {
 button.danger:hover, button.danger:active {
     border: 1px solid #bd1e12;
     color: #bd1e12;
+}
+
+.debugger {
+    color: white;
+    background-color: black;
+    height: 225px;
+    overflow-y: scroll;
+    margin-top: 10px;
 }
