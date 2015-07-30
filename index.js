@@ -1,10 +1,21 @@
 var gui = require('nw.gui')
 var win = gui.Window.get()
 
-var nativeMenuBar = new gui.Menu({ type: "menubar" });
-nativeMenuBar.createMacBuiltin("Demo Starter");
-win.menu = nativeMenuBar;
+var nativeMenuBar = new gui.Menu({ type: "menubar" })
+nativeMenuBar.createMacBuiltin("Demo Starter")
 
+var consoleItem = new gui.MenuItem({ label: 'Console' })
+var consoleSubMenu = new gui.Menu()
+consoleSubMenu.append(new gui.MenuItem({
+    label: 'Open Console',
+    click: function () {
+        win.showDevTools()
+    },
+}))
+consoleItem.submenu = consoleSubMenu
+
+nativeMenuBar.append(consoleItem)
+win.menu = nativeMenuBar
 
 var server = require('./server')
 var watch = require('./watch')
