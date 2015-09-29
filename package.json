@@ -1,15 +1,13 @@
 {
-  "name": "Demo Starter",
+  "name": "Demo_Starter",
   "version": "0.1.1",
-  "description": "",
-  "main": "index.html",
-  "author": "Chuck Pierce <chuckmpierce@gmail.com> (http://www.chuckmpierce.com)",
-  "license": "ISC",
+  "main": "index.js",
   "dependencies": {
     "webpack": "^1.10.5"
   },
-  "window": {
-      "icon": "assets/drip.png",
-      "toolbar": false
+  "devDependencies": {
+    "electron-prebuilt": "^0.30.2",
+    "electron-rebuild": "^0.2.5",
+    "eslint": "^1.1.0"
   }
 }

@@ -1,13 +1,14 @@
 var path = require('path')
 var webpack = require('webpack')
+var homeDir = require('remote').getGlobal('homeDir')
 
 var jsWatcher = {
     compiler: undefined,
     watchStarted: false,
     watcher: undefined,
-    run: function (document, gui) {
+    run: function (document) {
         // set root for OSX machines
-        var root = path.resolve(gui.App.dataPath, '../../..')
+        var root = homeDir
         var message = document.querySelector('.message')
 
         // start webpack watch for changes on js files when changing branches

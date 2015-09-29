@@ -9,7 +9,7 @@ var runServer = {
 
     serverLive: true,
 
-    run: function (document, callback, gui, newCMD) {
+    run: function (document, callback, newCMD) {
         if (newCMD) cmd = newCMD
         var message = document.querySelector('.message')
         // create child process to start server and set maxBuffer to handle preloading assets
@@ -37,8 +37,8 @@ var runServer = {
             if (code === 1 && runServer.serverLive) {
                 runServer.kill('SIGTERM')
                 runServer.run(document, function() {
-                    watcher = watch.run(message, gui, document)
-                }, gui, '/usr/local/google_appengine/dev_appserver.py ~/demo')
+                    watcher = watch.run(message, document)
+                }, '/usr/local/google_appengine/dev_appserver.py ~/demo')
             }
         })
 
