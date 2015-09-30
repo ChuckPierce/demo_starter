@@ -10,6 +10,15 @@ var serverBtn = document.querySelector('.server')
 var debugBtn = document.querySelector('.debug-btn')
 var debuggerConsole = document.querySelector('.debugger')
 
+remote.getCurrentWindow().on('close', function () {
+    console.log('closed')
+    server.kill('SIGTERM')
+})
+
+remote.getCurrentWindow().on('unresponsive', function () {
+    server.kill('SIGTERM')
+})
+
 // run server
 server.run(document, function () {
     // run watch
@@ -18,18 +27,12 @@ server.run(document, function () {
 
 // server button click
 serverBtn.addEventListener('click', function () {
-    server.kill('SIGTERM')
-    message.textContent = 'Server has stopped'
-    if(!watcher) watcher = watch.run(document)
-    watcher.close(function() {
-        server.run(document, function () {
-            watcher = watch.run(document)
-        })
-    })
+    killandRestart()
 })
 
 // watch button click
 watchBtn.addEventListener('click', function () {
+    console.log(watcher)
     watcher.close(function () {
         message.textContent = "restarting watch"
         watcher = watch.run(document)
@@ -48,3 +51,14 @@ debugBtn.addEventListener('click', function () {
         DEBUG = true
     }
 })
+
+function killandRestart () {
+    server.kill('SIGTERM')
+    message.textContent = 'Server has stopped'
+    if(!watcher) watcher = watch.run(document)
+    watcher.close(function() {
+        server.run(document, function () {
+            watcher = watch.run(document)
+        })
+    })
+}

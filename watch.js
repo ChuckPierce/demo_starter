@@ -5,7 +5,7 @@ var homeDir = require('remote').getGlobal('homeDir')
 var jsWatcher = {
     compiler: undefined,
     watchStarted: false,
-    watcher: undefined,
+
     run: function (document) {
         // set root for OSX machines
         var root = homeDir
@@ -23,6 +23,7 @@ var jsWatcher = {
         }, function(err, stats) {
             if (err) {
                 console.log(err)
+                throw err
             }
 
             var node = document.createElement('P')
