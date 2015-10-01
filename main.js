@@ -13,7 +13,7 @@ var debuggerConsole = document.querySelector('.debugger')
 
 remote.getCurrentWindow().on('close', function () {
     console.log('closed')
-    if (server.serverLive) server.kill('SIGTERM')
+    if(server) server.kill('SIGTERM')
 })
 
 remote.getCurrentWindow().on('unresponsive', function () {

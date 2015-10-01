@@ -50,7 +50,7 @@ var runServer = {
     },
     // kill process for restart
     kill: function (signal) {
-        this.child.kill(signal)
+        if(this.child) this.child.kill(signal)
     }
 
 }
