@@ -7,6 +7,7 @@ var DEBUG
 var message = document.querySelector('.message')
 var watchBtn = document.querySelector('.watch')
 var serverBtn = document.querySelector('.server')
+var startBtn = document.querySelector('.start')
 var debugBtn = document.querySelector('.debug-btn')
 var debuggerConsole = document.querySelector('.debugger')
 
@@ -19,10 +20,14 @@ remote.getCurrentWindow().on('unresponsive', function () {
     server.kill('SIGTERM')
 })
 
-// run server
-server.run(document, function () {
-    // run watch
-    watcher = watch.run(document)
+startBtn.addEventListener('click', function () {
+    server.run(document, function () {
+            // run watch
+            watcher = watch.run(document)
+        })
+    startBtn.classList.add('hide')
+    serverBtn.classList.remove('hide')
+    watchBtn.classList.remove('hide')
 })
 
 // server button click
@@ -32,11 +37,19 @@ serverBtn.addEventListener('click', function () {
 
 // watch button click
 watchBtn.addEventListener('click', function () {
-    console.log(watcher)
-    watcher.close(function () {
-        message.textContent = "restarting watch"
+    if (watcher) {
+        watcher.close(function () {
+            message.textContent = "watch stopped"
+            watcher = null
+            watchBtn.textContent = 'start watch'
+            console.log('watch stopped')
+        })
+    } else {
+        watchBtn.textContent = 'stop watch'
+        message.textContent = "starting watch"
         watcher = watch.run(document)
-    })
+        console.log('restarting watch')
+    }
 })
 
 // console show and hide click

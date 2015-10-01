@@ -48,3 +48,7 @@ button.danger:hover, button.danger:active {
 .debugger > p {
     margin-left: 10px;
 }
+
+button.hide {
+    display: none;
+}

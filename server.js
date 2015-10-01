@@ -7,7 +7,7 @@ var runServer = {
     // command to execute python development server with demo directory
     child: undefined,
 
-    serverLive: true,
+    serverLive: false,
 
     run: function (document, callback, newCMD) {
         if (newCMD) cmd = newCMD
@@ -23,6 +23,7 @@ var runServer = {
         this.child.stderr.on('data', function(data) {
             if (data.indexOf('Starting admin server') > -1) {
                 message.textContent = 'Server has started...starting webpack watch'
+                this.serverLive = true
                 callback()
             } else if (data.indexOf('Unable to bind localhost') > -1) {
                 console.log('in here')
