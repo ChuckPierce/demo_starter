@@ -1,6 +1,8 @@
 var server = require('./server')
 var watch = require('./watch')
 var remote = require('remote')
+var config = require('./config')
+var exec = require('child_process').exec
 var watcher
 var DEBUG
 
@@ -12,22 +14,32 @@ var debugBtn = document.querySelector('.debug-btn')
 var debuggerConsole = document.querySelector('.debugger')
 
 remote.getCurrentWindow().on('close', function () {
-    console.log('closed')
-    if(server) server.kill('SIGTERM')
-})
-
-remote.getCurrentWindow().on('unresponsive', function () {
     server.kill('SIGTERM')
 })
 
 startBtn.addEventListener('click', function () {
-    server.run(document, function () {
-            // run watch
-            watcher = watch.run(document)
+    if(config.readPid()) {
+        exec('kill ' + config.readPid(), function (err, stout, sterr) {
+            console.log(err)
+            console.log(stout)
+            console.log(sterr)
+            server.run(document, function () {
+                // run watch
+                watcher = watch.run(document)
+            })
+            startBtn.classList.add('hide')
+            serverBtn.classList.remove('hide')
+            watchBtn.classList.remove('hide')
         })
-    startBtn.classList.add('hide')
-    serverBtn.classList.remove('hide')
-    watchBtn.classList.remove('hide')
+    } else {
+        server.run(document, function () {
+                // run watch
+                watcher = watch.run(document)
+            })
+        startBtn.classList.add('hide')
+        serverBtn.classList.remove('hide')
+        watchBtn.classList.remove('hide')
+    }
 })
 
 // server button click

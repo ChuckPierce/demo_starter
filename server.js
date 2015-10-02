@@ -1,6 +1,7 @@
 var exec = require('child_process').exec
 var cmd = '/usr/local/google_appengine/dev_appserver.py ~/percolate/demo'
 var watch = require('./watch')
+var config = require('./config')
 var watcher
 
 var runServer = {
@@ -11,19 +12,21 @@ var runServer = {
 
     run: function (document, callback, newCMD) {
         if (newCMD) cmd = newCMD
+
         var message = document.querySelector('.message')
         // create child process to start server and set maxBuffer to handle preloading assets
         this.child = exec(cmd,{maxBuffer:200*10024})
-
+        config.savePid(this.child.pid)
         // handle dev console logs and message changes
         this.child.stdout.on('data', function(data) {
             console.log('stdout: ' + data)
         })
 
         this.child.stderr.on('data', function(data) {
+            if (data.indexOf('BindError') > -1) message.textContent = "There is already an instance of the server running on your computer!  Close all other instances and try again!"
             if (data.indexOf('Starting admin server') > -1) {
                 message.textContent = 'Server has started...starting webpack watch'
-                this.serverLive = true
+                runServer.serverLive = true
                 callback()
             } else if (data.indexOf('Unable to bind localhost') > -1) {
                 console.log('in here')
@@ -33,7 +36,6 @@ var runServer = {
         })
 
         this.child.on('close', function(code, signal) {
-            if (!runServer.serverLive) message.textContent = "There is already an instance of the server running on your computer!  Close all other instances and try again!"
             console.log('closing code: ' + code)
             if (code === 1 && runServer.serverLive) {
                 runServer.kill('SIGTERM')
@@ -50,6 +52,7 @@ var runServer = {
     },
     // kill process for restart
     kill: function (signal) {
+        runServer.serverLive = false
         if(this.child) this.child.kill(signal)
     }
 

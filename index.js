@@ -1,19 +1,33 @@
 var app = require('app')
 var BrowserWindow = require('browser-window')
 var Menu = require('menu')
+var exec = require('child_process').exec
+var config = require('./config')
 
-require('crash-reporter').start()
+var crashReporter = require('crash-reporter')
+crashReporter.start()
 
 var mainWindow = null
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
+    console.log('closed!')
     app.quit()
+})
+
+app.on('quit', function () {
+  console.log('I quit!')
+  config.clearPid()
+})
+
+app.on('gpu-process-crashed', function () {
+  console.log('I crashed!')
 })
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
+
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
 
@@ -30,8 +44,7 @@ app.on('ready', function() {
 
   mainWindow.on('unresponsive', function () {
     console.log('the window is unresponsive')
-    app.quit()
-    console.log('the application should have quit')
+    exec('kill ' + config.readPid())
   })
 })
 
