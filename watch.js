@@ -13,7 +13,7 @@ var jsWatcher = {
 
         // start webpack watch for changes on js files when changing branches
         var config = require(path.join(root, '/percolate/demo/ui/lib/config'))
-        config.webpack.devtool = 'eval'
+        config.webpack.devtool = 'cheap-module-source-map'
         // set webpack compiler to jsWatcher attribute
         this.compiler = webpack(config.webpack)
         // start webpack watch
