@@ -17,7 +17,7 @@ app.on('window-all-closed', function() {
 
 app.on('quit', function () {
   console.log('I quit!')
-  config.clearPid()
+  config.clearPid('pid')
 })
 
 app.on('gpu-process-crashed', function () {
@@ -27,6 +27,7 @@ app.on('gpu-process-crashed', function () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
+
 
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
@@ -44,7 +45,7 @@ app.on('ready', function() {
 
   mainWindow.on('unresponsive', function () {
     console.log('the window is unresponsive')
-    exec('kill ' + config.readPid())
+    exec('kill ' + config.readPid('pid'))
   })
 })
 

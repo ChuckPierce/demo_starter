@@ -16,7 +16,7 @@ var runServer = {
         var message = document.querySelector('.message')
         // create child process to start server and set maxBuffer to handle preloading assets
         this.child = exec(cmd,{maxBuffer:200*10024})
-        config.savePid(this.child.pid)
+        config.savePid('pid', this.child.pid)
         // handle dev console logs and message changes
         this.child.stdout.on('data', function(data) {
             console.log('stdout: ' + data)
@@ -52,7 +52,7 @@ var runServer = {
     },
     // kill process for restart
     kill: function (signal) {
-        runServer.serverLive = false
+        this.serverLive = false
         if(this.child) this.child.kill(signal)
     }
 

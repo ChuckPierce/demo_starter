@@ -1,21 +1,21 @@
 var nconf = require('nconf').file({file: getUserHome() + '/demo-server-pid.json'})
 
-function savePid(settingValue) {
-    nconf.set('pid', settingValue)
+function savePid(key, settingValue) {
+    nconf.set(key, settingValue)
     nconf.save()
 }
 
-function readPid() {
+function readPid(key) {
     nconf.load()
-    return nconf.get('pid')
+    return nconf.get(key)
 }
 
 function getUserHome() {
     return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME']
 }
 
-function clearPid() {
-    nconf.set('pid', '')
+function clearPid(key) {
+    nconf.set(key, '')
     nconf.save()
 }
 

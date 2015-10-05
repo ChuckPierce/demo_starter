@@ -13,16 +13,17 @@ var startBtn = document.querySelector('.start')
 var debugBtn = document.querySelector('.debug-btn')
 var debuggerConsole = document.querySelector('.debugger')
 
+// set pid and start checker
+config.savePid('mainPid', process.pid)
+exec('node ./checker')
+
 remote.getCurrentWindow().on('close', function () {
     server.kill('SIGTERM')
 })
 
 startBtn.addEventListener('click', function () {
-    if(config.readPid()) {
-        exec('kill ' + config.readPid(), function (err, stout, sterr) {
-            console.log(err)
-            console.log(stout)
-            console.log(sterr)
+    if(config.readPid('pid')) {
+        exec('kill ' + config.readPid('pid'), function (err, stout, sterr) {
             server.run(document, function () {
                 // run watch
                 watcher = watch.run(document)
