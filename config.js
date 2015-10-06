@@ -19,8 +19,20 @@ function clearPid() {
     nconf.save()
 }
 
+function getDemoPath() {
+    nconf.load()
+    return nconf.get('demoPath')
+}
+
+function saveDemoPath(path) {
+    nconf.set('demoPath', path)
+    nconf.save()
+}
+
 module.exports = {
     savePid: savePid,
     readPid: readPid,
     clearPid: clearPid,
+    getDemoPath: getDemoPath,
+    saveDemoPath: saveDemoPath,
 }

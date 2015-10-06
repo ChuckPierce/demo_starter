@@ -1,5 +1,5 @@
 var exec = require('child_process').exec
-var cmd = '/usr/local/google_appengine/dev_appserver.py ~/percolate/demo'
+var cmd = '/usr/local/google_appengine/dev_appserver.py '
 var watch = require('./watch')
 var config = require('./config')
 var watcher
@@ -12,7 +12,7 @@ var runServer = {
 
     run: function (document, callback, newCMD) {
         if (newCMD) cmd = newCMD
-
+        cmd += config.getDemoPath()
         var message = document.querySelector('.message')
         // create child process to start server and set maxBuffer to handle preloading assets
         this.child = exec(cmd,{maxBuffer:200*10024})
@@ -41,7 +41,7 @@ var runServer = {
                 runServer.kill('SIGTERM')
                 runServer.run(document, function() {
                     watcher = watch.run(message, document)
-                }, '/usr/local/google_appengine/dev_appserver.py ~/demo')
+                }, '/usr/local/google_appengine/dev_appserver.py ')
             }
         })
 

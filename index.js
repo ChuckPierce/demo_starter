@@ -3,6 +3,8 @@ var BrowserWindow = require('browser-window')
 var Menu = require('menu')
 var exec = require('child_process').exec
 var config = require('./config')
+var dialog = require('dialog')
+var demoPath
 
 var crashReporter = require('crash-reporter')
 crashReporter.start()
@@ -36,6 +38,15 @@ app.on('ready', function() {
 
   // set home directory
   global.homeDir = this.getHomeDir()
+  config.saveDemoPath('')
+  if (!config.getDemoPath()) {
+
+    while(!demoPath) {
+      demoPath = dialog.showOpenDialog(mainWindow, {title: 'Select demo directory', defaultPath: homeDir, properties: ['openDirectory']})
+    }
+
+    config.saveDemoPath(demoPath[0])
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
@@ -132,6 +143,22 @@ app.once('ready', function() {
             label: 'Select All',
             accelerator: 'Command+A',
             selector: 'selectAll:'
+          },
+          {
+            type: 'separator'
+          },
+          {
+            label: 'Reset Demo Path',
+            click: function () {
+              config.saveDemoPath('')
+              demoPath = ''
+
+              while(!demoPath) {
+                demoPath = dialog.showOpenDialog(mainWindow, {title: 'Select demo directory', defaultPath: homeDir, properties: ['openDirectory']})
+              }
+
+              config.saveDemoPath(demoPath[0])
+            }
           },
         ]
       },
