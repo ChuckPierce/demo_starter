@@ -38,7 +38,7 @@ app.on('ready', function() {
 
   // set home directory
   global.homeDir = this.getHomeDir()
-  config.saveDemoPath('')
+
   if (!config.getDemoPath()) {
 
     while(!demoPath) {
