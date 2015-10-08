@@ -1,7 +1,7 @@
 var path = require('path')
-var webpack = require('webpack')
+var webpack = require('./node_modules/webpack')
 var homeDir = require('remote').getGlobal('homeDir')
-var ProgressPlugin = require('webpack/lib/ProgressPlugin')
+var ProgressPlugin = require('./node_modules/webpack/lib/ProgressPlugin')
 var debuggerConsole = document.querySelector('.debugger')
 var progress = document.querySelector('.progress')
 var configPath = require('./config')
@@ -19,7 +19,7 @@ var jsWatcher = {
 
         // start webpack watch for changes on js files when changing branches
         var config = require(path.join(configPath.getDemoPath(), '/ui/lib/config'))
-        console.log(config)
+
         config.webpack.devtool = 'eval'
         // set webpack compiler to jsWatcher attribute
         this.compiler = webpack(config.webpack)

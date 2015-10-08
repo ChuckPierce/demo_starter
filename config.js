@@ -1,4 +1,4 @@
-var nconf = require('nconf').file({file: getUserHome() + '/demo-server-pid.json'})
+var nconf = require('./node_modules/nconf').file({file: getUserHome() + '/demo-server-pid.json'})
 
 function savePid(settingValue) {
     nconf.set('pid', settingValue)
