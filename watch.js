@@ -1,6 +1,10 @@
 var path = require('path')
 var webpack = require('webpack')
 var homeDir = require('remote').getGlobal('homeDir')
+var ProgressPlugin = require('webpack/lib/ProgressPlugin')
+var debuggerConsole = document.querySelector('.debugger')
+var progress = document.querySelector('.progress')
+var buildMsg
 
 var jsWatcher = {
     compiler: undefined,
@@ -13,21 +17,38 @@ var jsWatcher = {
 
         // start webpack watch for changes on js files when changing branches
         var config = require(path.join(root, '/percolate/demo/ui/lib/config'))
-        config.webpack.devtool = 'cheap-module-source-map'
+        config.webpack.devtool = 'eval'
         // set webpack compiler to jsWatcher attribute
         this.compiler = webpack(config.webpack)
+        // display watch progress
+        this.compiler.apply(new ProgressPlugin(function(percentage, msg) {
+                if(percentage < 1) {
+                    percentage = Math.floor(percentage * 100)
+                    msg = percentage + "% " + msg
+                    if(percentage < 100) msg = " " + msg
+                    if(percentage < 10) msg = " " + msg
+                }
+                console.log(msg)
+                if(buildMsg !== msg) {
+                    progress.textContent = msg
+                    buildMsg = msg
+                }
+            }))
         // start webpack watch
         var watcher = this.compiler.watch({
             aggregateTimeout: 300,
             poll: true
         }, function(err, stats) {
             if (err) {
+                console.log('there was an error')
                 console.log(err)
                 throw err
             }
-
+            if (stats.hasErrors()) {
+                console.log('there were errors')
+                throw new Error('there were errors')
+            }
             var node = document.createElement('P')
-            var debuggerConsole = document.querySelector('.debugger')
             if (stats.compilation.errors.length > 0) {
                 stats.compilation.errors.forEach(function (error) {
                     console.log(error.message)
