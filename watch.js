@@ -18,7 +18,8 @@ var jsWatcher = {
         console.log()
 
         // start webpack watch for changes on js files when changing branches
-        var config = require(path.join(root, configPath.getDemoPath() + '/ui/lib/config'))
+        var config = require(path.join(configPath.getDemoPath(), '/ui/lib/config'))
+        console.log(config)
         config.webpack.devtool = 'eval'
         // set webpack compiler to jsWatcher attribute
         this.compiler = webpack(config.webpack)
