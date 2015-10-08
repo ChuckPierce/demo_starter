@@ -4,6 +4,7 @@ var homeDir = require('remote').getGlobal('homeDir')
 var ProgressPlugin = require('webpack/lib/ProgressPlugin')
 var debuggerConsole = document.querySelector('.debugger')
 var progress = document.querySelector('.progress')
+var configPath = require('./config')
 var buildMsg
 
 var jsWatcher = {
@@ -14,9 +15,10 @@ var jsWatcher = {
         // set root for OSX machines
         var root = homeDir
         var message = document.querySelector('.message')
+        console.log()
 
         // start webpack watch for changes on js files when changing branches
-        var config = require(path.join(root, '/percolate/demo/ui/lib/config'))
+        var config = require(path.join(root, configPath.getDemoPath() + '/ui/lib/config'))
         config.webpack.devtool = 'eval'
         // set webpack compiler to jsWatcher attribute
         this.compiler = webpack(config.webpack)
@@ -28,7 +30,7 @@ var jsWatcher = {
                     if(percentage < 100) msg = " " + msg
                     if(percentage < 10) msg = " " + msg
                 }
-                console.log(msg)
+                // console.log(msg)
                 if(buildMsg !== msg) {
                     progress.textContent = msg
                     buildMsg = msg
