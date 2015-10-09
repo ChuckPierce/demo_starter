@@ -18,28 +18,31 @@ remote.getCurrentWindow().on('close', function () {
 })
 
 startBtn.addEventListener('click', function () {
-    if(config.readPid()) {
-        exec('kill ' + config.readPid(), function (err, stout, sterr) {
-            console.log(err)
-            console.log(stout)
-            console.log(sterr)
-            server.run(document, function () {
-                // run watch
-                watcher = watch.run(document)
+    exec('if test -d '+ config.getDemoPath() +'/ui/node_modules; then echo "exist"; fi', function (err, stout, sterr) {
+        console.log(stout)
+        if(stout) {
+            startServer()
+        } else {
+            message.textContent = "installing dependencies"
+            var install = exec('cd ' + config.getDemoPath() + '/ui && npm install')
+
+            install.stdout.on('data', function(data) {
+                console.log(data)
             })
-            startBtn.classList.add('hide')
-            serverBtn.classList.remove('hide')
-            watchBtn.classList.remove('hide')
+
+            install.stderr.on('data', function(data) {
+                console.log(data)
+            })
+
+            install.on('close', function(code, signal) {
+            console.log('closing code: ' + code)
+            if (code === 0) {
+                message.textContent = "install complete, restart server"
+            }
         })
-    } else {
-        server.run(document, function () {
-                // run watch
-                watcher = watch.run(document)
-            })
-        startBtn.classList.add('hide')
-        serverBtn.classList.remove('hide')
-        watchBtn.classList.remove('hide')
-    }
+        }
+    })
+
 })
 
 // server button click
@@ -86,4 +89,29 @@ function killandRestart () {
             watcher = watch.run(document)
         })
     })
+}
+
+function startServer () {
+    if(config.readPid()) {
+        exec('kill ' + config.readPid(), function (err, stout, sterr) {
+            console.log(err)
+            console.log(stout)
+            console.log(sterr)
+            server.run(document, function () {
+                // run watch
+                watcher = watch.run(document)
+            })
+            startBtn.classList.add('hide')
+            serverBtn.classList.remove('hide')
+            watchBtn.classList.remove('hide')
+        })
+    } else {
+        server.run(document, function () {
+                // run watch
+                watcher = watch.run(document)
+            })
+        startBtn.classList.add('hide')
+        serverBtn.classList.remove('hide')
+        watchBtn.classList.remove('hide')
+    }
 }

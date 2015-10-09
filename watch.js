@@ -38,10 +38,7 @@ var jsWatcher = {
                 }
             }))
         // start webpack watch
-        var watcher = this.compiler.watch({
-            aggregateTimeout: 300,
-            poll: true
-        }, function(err, stats) {
+        var watcher = this.compiler.run(function(err, stats) {
             if (err) {
                 console.log('there was an error')
                 console.log(err)
