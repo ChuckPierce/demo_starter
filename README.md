@@ -1,3 +1,5 @@
+_This repository showcases work I did with a native application for OSX using Javascript. The application itself is no longer being actively developed or used_
+
 # Percolate Demo Starter
 
 
@@ -29,8 +31,3 @@ To build the app:
 The current version only supports OSX operating system
 
 Also, the demo repository currently has to exist in either `~/percolate/demo` or `~/demo` for the application to work correctly
-
-## To Do
-- integrate with Github API to allow switching between branches in app
-- allow user to designate where the demo repository lives on local machine
-- make app compatible with other operating systems
